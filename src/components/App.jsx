@@ -1,33 +1,78 @@
-import { useSelector, useDispatch } from 'react-redux';
-import Container from './Container';
-import PhonebookForm from './PhonebookForm';
-import PhonebookContacts from './PhonebookContacts';
-import PhonebookFilter from './PhonebookFilter';
-import { useEffect } from 'react';
-import { selectContacts,  selectIsLoading, selectError } from 'redux/selectors';
-import { fetchContacts } from 'redux/operations';
+import React, { useEffect, lazy } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Route, Routes } from 'react-router-dom';
+import { selectIsRefreshing } from '../redux/auth/selectors';
+import { Circles } from 'react-loader-spinner';
+import { PrivateRoute } from '../route/PrivateRoute';
+import { RestrictedRoute } from '../route/RestrictedRoute';
+import { refreshUser } from '../redux/auth/operations';
+import Home from '../pages/Home';
+import Layout from './Layout';
+import NotFoundPage from '../pages/NotFounPage';
+
+const RegisterPage = lazy(() => import('../pages/RegisterPage/RegisterPage'));
+const LoginPage = lazy(() => import('../pages/LoginPage/LoginPage'));
+const ContactsPage = lazy(() => import('../pages/ContactsPage/ContactsPage'));
 
 function App() {
-  const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
-  const isLoading = useSelector(selectIsLoading);
-  const error = useSelector(selectError);
- 
+  const isRefreshing = useSelector(selectIsRefreshing);
+
   useEffect(() => {
-    dispatch(fetchContacts());
+    dispatch(refreshUser());
   }, [dispatch]);
 
   return (
-    <Container>
-      <h1>Phonebook</h1>
-      <PhonebookForm />
-      <h2>Contacts</h2>
-      {contacts.length > 1 && <PhonebookFilter />}
-       {isLoading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
-   
-      <PhonebookContacts />
-    </Container>
+    <>
+      {isRefreshing ? (
+        <Circles
+          height="80"
+          width="80"
+          color="#4fa94d"
+          ariaLabel="circles-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      ) : (
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route
+              path="register"
+              element={
+                <RestrictedRoute
+                  redirectTo="/contacts"
+                  component={<RegisterPage />}
+                />
+              }
+            />
+
+            <Route
+              path="login"
+              element={
+                <RestrictedRoute
+                  redirectTo="/contacts"
+                  component={<LoginPage />}
+                />
+              }
+            />
+
+            <Route
+              path="contacts"
+              element={
+                <PrivateRoute
+                  redirectTo="/login"
+                  component={<ContactsPage />}
+                />
+              }
+            />
+
+            <Route path="*" element={<NotFoundPage />} />
+          </Route>
+        </Routes>
+      )}
+    </>
   );
 }
 
