@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Circles } from 'react-loader-spinner';
 import { selectIsLoading, selectError } from '../../redux/contacts/selectors';
-import PhonebookContatcs from '../../components/PhonebookContatcs/PhonebookContatcs';
+import PhonebookContatcs from '../../components/PhonebookContacts/PhonebookContacts';
 import PhonebookFilter from 'components/PhonebookFilter';
 import PhonebookForm from 'components/PhonebookForm';
 import { fetchContacts } from '../../redux/contacts/operations';

@@ -5,7 +5,7 @@ const Home = () => {
   return (
       <Container>
           
-      <h1 className={css.title}>Welcom to your PhoneBOOK</h1>      
+      <h1 className={css.title}>Welcome to your PhoneBook</h1>      
     </Container>
   )
 }

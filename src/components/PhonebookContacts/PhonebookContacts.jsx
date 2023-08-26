@@ -1,6 +1,3 @@
-// import css from './PhonebookContatcs.module.css';
-// import { CiUser } from 'react-icons/ci';
-// import { GrClose } from 'react-icons/gr';
 import { deleteContact } from 'redux/contacts/operations';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectContacts, selectContactsFilter } from 'redux/contacts/selectors';

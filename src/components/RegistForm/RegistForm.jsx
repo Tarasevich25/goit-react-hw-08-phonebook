@@ -27,7 +27,7 @@ const RegistForm = () => {
           type="text"
           name="name"
           required
-          placeholder="Full NAME"
+          placeholder="Full Name"
           minLength={3}
         />
       </label>
@@ -37,7 +37,7 @@ const RegistForm = () => {
           type="email"
           name="email"
           required
-          placeholder="your e-mail"
+          placeholder="Your Email"
         />
       </label>
       <label>
@@ -45,9 +45,9 @@ const RegistForm = () => {
         <input
           type="password"
           name="password"
-          minLength={7}
+          minLength={6}
           required
-          placeholder="curent password"
+          placeholder="Current password"
         />
       </label>
       <button type="submit">Register</button>
